@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #0a0a0a;
+  --color-foreground: #ffffff;
+  --color-accent: #ff3300; /* Orange/Red industrial accent */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'Roboto Mono', monospace;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* Custom Scrollbar for the Industrial Look */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+  background: #333333;
+  border-right: 2px solid #0a0a0a;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ff3300;
+}
+
+/* Hide scrollbar for gallery sections but allow scroll */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+@utility brutalist-border {
+  border-width: 2px;
+  border-color: var(--color-foreground);
+  border-style: solid;
+}
+
+@utility brutalist-shadow {
+  box-shadow: 4px 4px 0px 0px rgba(255, 255, 255, 1);
+}
+
+@utility brutalist-button {
+  border-width: 2px;
+  border-color: var(--color-foreground);
+  border-style: solid;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  transition-property: all;
+  transition-duration: 200ms;
+  
+  &:hover {
+    background-color: var(--color-foreground);
+    color: var(--color-background);
+    box-shadow: 4px 4px 0 0 #fff;
+  }
+  
+  &:active {
+    transform: translateY(4px) translateX(4px);
+    box-shadow: none;
+  }
+}
