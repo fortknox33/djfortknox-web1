@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { logout } from '../login/actions';
 
 export default function AdminLayout({
   children,
@@ -18,6 +19,11 @@ export default function AdminLayout({
           <Link href="/admin" className="font-mono text-sm hover:text-accent transition-colors">
             [01] DASHBOARD
           </Link>
+          <form action={logout}>
+            <button type="submit" className="font-mono text-sm text-accent hover:text-white transition-colors uppercase cursor-pointer">
+              [XX] LOGOUT
+            </button>
+          </form>
           <Link href="/" className="font-mono text-sm text-white/50 hover:text-white mt-auto">
             &larr; EXIT TO SITE
           </Link>

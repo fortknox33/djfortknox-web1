@@ -36,7 +36,36 @@ export async function updateSession(request: NextRequest) {
   )
 
   // This will refresh the session if it's expired
-  await supabase.auth.getUser()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  const url = request.nextUrl.clone()
+
+  // Route protection
+  if (url.pathname.startsWith('/admin')) {
+    if (!user) {
+      url.pathname = '/login'
+      return NextResponse.redirect(url)
+    }
+
+    // Secondary check for restricted email if configured
+    const adminEmail = process.env.ADMIN_EMAIL || 'admin@djfortknox.de'
+    if (user.email !== adminEmail) {
+      // Sign out and redirect if email doesn't match
+      await supabase.auth.signOut()
+      url.pathname = '/login'
+      url.searchParams.set('error', 'Unauthorized')
+      return NextResponse.redirect(url)
+    }
+  }
+
+  // Redirect logged-in users away from login page
+  if (url.pathname === '/login' && user) {
+    const adminEmail = process.env.ADMIN_EMAIL || 'admin@djfortknox.de'
+    if (user.email === adminEmail) {
+      url.pathname = '/admin'
+      return NextResponse.redirect(url)
+    }
+  }
 
   return supabaseResponse
 }
